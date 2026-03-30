@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Invitación | Revelación de Género</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --rosa:#f8bfd5;
+      --rosa-fuerte:#ea7dad;
+      --azul:#b8ddff;
+      --azul-fuerte:#74b7ff;
+      --lavanda:#eadfff;
+      --durazno:#ffe7d8;
+      --texto:#4d4a5d;
+      --texto-suave:#77748b;
+      --blanco:rgba(255,255,255,.72);
+      --borde:1px solid rgba(255,255,255,.58);
+      --sombra:0 20px 60px rgba(115, 100, 153, 0.16);
+      --sombra-suave:0 10px 30px rgba(115, 100, 153, 0.10);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'Montserrat',sans-serif;
+      color:var(--texto);
+      background:
+        radial-gradient(circle at top left, rgba(248,191,213,.60), transparent 28%),
+        radial-gradient(circle at top right, rgba(184,221,255,.58), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(234,223,255,.55), transparent 28%),
+        linear-gradient(135deg, #fff8fb 0%, #f9fbff 45%, #fffaf6 100%);
+      overflow-x:hidden;
+      min-height:100vh;
+    }
+
+    .floating-orbs span{
+      position:fixed;
+      border-radius:50%;
+      filter:blur(10px);
+      opacity:.30;
+      z-index:0;
+      animation:floatOrb 11s ease-in-out infinite;
+      pointer-events:none;
+    }
+    .floating-orbs span:nth-child(1){width:190px;height:190px;background:var(--rosa);top:4%;left:5%}
+    .floating-orbs span:nth-child(2){width:220px;height:220px;background:var(--azul);top:18%;right:4%;animation-delay:1.5s}
+    .floating-orbs span:nth-child(3){width:150px;height:150px;background:var(--lavanda);bottom:12%;left:8%;animation-delay:3s}
+    .floating-orbs span:nth-child(4){width:180px;height:180px;background:var(--durazno);bottom:8%;right:8%;animation-delay:2s}
+
+    @keyframes floatOrb{
+      0%,100%{transform:translateY(0) translateX(0) scale(1)}
+      50%{transform:translateY(-18px) translateX(8px) scale(1.04)}
+    }
+
+    .heart-layer{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:2;
+      overflow:hidden;
+    }
+    .floating-heart{
+      position:absolute;
+      bottom:-40px;
+      opacity:.82;
+      animation:heartRise linear forwards;
+      filter:drop-shadow(0 6px 12px rgba(255, 175, 200, .25));
+    }
+    @keyframes heartRise{
+      0%{transform:translateY(0) scale(.8) rotate(0deg);opacity:0}
+      12%{opacity:.9}
+      100%{transform:translateY(-115vh) translateX(var(--drift, 0px)) scale(1.15) rotate(16deg);opacity:0}
+    }
+
+    .wrapper{position:relative;z-index:1}
+    .container{width:min(1120px, calc(100% - 32px));margin:0 auto}
+
+    .hero{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      padding:38px 0 58px;
+    }
+
+    .hero-photo{
+      position:absolute;
+      inset:0;
+      background-image:linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.45)), url('familia.jpeg');
+      background-size:cover;
+      background-position:center;
+      z-index:-2;
+      transform:scale(1.14);
+      animation:heroZoomIn 3.8s ease-out forwards;
+    }
+
+    @keyframes heroZoomIn{
+      0%{transform:scale(1.14)}
+      100%{transform:scale(1.02)}
+    }
+
+    .hero-card{
+      width:100%;
+      display:grid;
+      grid-template-columns:1.12fr .88fr;
+      gap:28px;
+      background:var(--blanco);
+      border:var(--borde);
+      border-radius:34px;
+      box-shadow:var(--sombra);
+      backdrop-filter:blur(16px);
+      overflow:hidden;
+      position:relative;
+      isolation:isolate;
+    }
+    .hero-card::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 18% 16%, rgba(255,255,255,.32), transparent 28%),
+        radial-gradient(circle at 82% 18%, rgba(255,255,255,.18), transparent 24%);
+      pointer-events:none;
+      z-index:-1;
+    }
+
+    .hero-left,.hero-right{padding:42px; position:relative; z-index:2}
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 16px;
+      border-radius:999px;
+      background:rgba(255,255,255,.80);
+      border:1px solid rgba(255,255,255,.95);
+      box-shadow:var(--sombra-suave);
+      font-size:.88rem;
+      font-weight:700;
+      margin-bottom:18px;
+    }
+
+    .script{
+      font-family:'Great Vibes',cursive;
+      font-size:3.6rem;
+      color:var(--rosa-fuerte);
+      line-height:1;
+      margin-bottom:10px;
+    }
+
+    h1{
+      font-size:clamp(2.3rem, 6vw, 4.4rem);
+      line-height:1.03;
+      font-weight:800;
+      letter-spacing:-.03em;
+      margin-bottom:18px;
+    }
+
+    .gradient-text{
+      background:linear-gradient(90deg, var(--rosa-fuerte), var(--azul-fuerte));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      color:transparent;
+    }
+
+    .lead{
+      font-size:1.03rem;
+      line-height:1.9;
+      color:var(--texto-suave);
+      max-width:650px;
+      margin-bottom:26px;
+    }
+
+    .parents{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-bottom:24px;
+    }
+
+    .pill{
+      padding:11px 16px;
+      border-radius:999px;
+      background:rgba(255,255,255,.82);
+      border:1px solid rgba(255,255,255,.96);
+      font-weight:700;
+      box-shadow:var(--sombra-suave);
+    }
+
+    .cta-group{display:flex;flex-wrap:wrap;gap:14px}
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:15px 22px;
+      border-radius:18px;
+      text-decoration:none;
+      font-weight:700;
+      transition:transform .28s ease, box-shadow .28s ease, background .28s ease;
+      border:none;
+      cursor:pointer;
+      font-family:inherit;
+    }
+    .btn-primary{
+      background:linear-gradient(90deg, var(--rosa-fuerte), var(--azul-fuerte));
+      color:#fff;
+      box-shadow:0 14px 34px rgba(127, 145, 230, 0.26);
+    }
+    .btn-primary:hover{transform:translateY(-3px) scale(1.01)}
+    .btn-secondary{
+      background:rgba(255,255,255,.78);
+      color:var(--texto);
+      border:1px solid rgba(255,255,255,.95);
+      box-shadow:var(--sombra-suave);
+    }
+    .btn-secondary:hover{transform:translateY(-3px)}
+
+    .mini-note{
+      margin-top:14px;
+      font-size:.92rem;
+      color:var(--texto-suave);
+      line-height:1.7;
+    }
+
+    .countdown-wrap,
+    .song-box,
+    .glass,
+    .timeline-card,
+    .gallery-card,
+    .footer-card,
+    .info-card{
+      background:rgba(255,255,255,.74);
+      border:var(--borde);
+      box-shadow:var(--sombra);
+    }
+
+    .countdown-wrap{
+      margin-top:28px;
+      border-radius:28px;
+      padding:24px;
+    }
+    .countdown-title,
+    .song-title,
+    .info-label{
+      font-size:.83rem;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:var(--texto-suave);
+      font-weight:800;
+      margin-bottom:12px;
+    }
+    #countdown{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:14px;
+    }
+    .count-box{
+      border-radius:22px;
+      padding:18px 12px;
+      text-align:center;
+      background:rgba(255,255,255,.88);
+      border:1px solid rgba(255,255,255,.98);
+      box-shadow:var(--sombra-suave);
+    }
+    .count-box strong{
+      display:block;
+      font-size:2rem;
+      line-height:1;
+      margin-bottom:8px;
+      background:linear-gradient(90deg, var(--rosa-fuerte), var(--azul-fuerte));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      color:transparent;
+    }
+    .count-box span,
+    .countdown-finished{color:var(--texto-suave);font-weight:700}
+
+    .chip-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:center;
+      margin-top:16px;
+    }
+    .chip{
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.84);
+      border:1px solid rgba(255,255,255,.96);
+      font-size:.9rem;
+      font-weight:700;
+      box-shadow:var(--sombra-suave);
+    }
+
+    .song-box{
+      margin-top:18px;
+      border-radius:28px;
+      padding:22px;
+      text-align:center;
+    }
+    .song-name{
+      font-size:1.12rem;
+      font-weight:700;
+      margin-bottom:8px;
+    }
+    .song-text{
+      color:var(--texto-suave);
+      line-height:1.8;
+      font-size:.95rem;
+    }
+
+    .hero-right{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.20), rgba(255,255,255,.04)),
+        linear-gradient(145deg, rgba(248,191,213,.52), rgba(184,221,255,.52));
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:18px;
+    }
+    .info-card{
+      border-radius:24px;
+      padding:22px;
+      transform:translateY(0);
+      animation:softLift 5s ease-in-out infinite;
+    }
+    .info-card:nth-child(2){animation-delay:1s}
+    .info-card:nth-child(3){animation-delay:2s}
+    @keyframes softLift{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-6px)}
+    }
+    .info-value{font-size:1.08rem;font-weight:700;line-height:1.5}
+    .info-sub{font-size:.96rem;color:var(--texto-suave);line-height:1.75;margin-top:6px}
+
+    section{padding:32px 0 0}
+    .section-title{
+      font-size:clamp(1.8rem, 4vw, 2.9rem);
+      text-align:center;
+      margin-bottom:12px;
+      font-weight:800;
+    }
+    .section-text{
+      text-align:center;
+      color:var(--texto-suave);
+      max-width:760px;
+      margin:0 auto 28px;
+      line-height:1.85;
+    }
+
+    .timeline{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:18px;
+      margin-top:20px;
+    }
+    .timeline-card{
+      position:relative;
+      border-radius:24px;
+      padding:22px;
+      overflow:hidden;
+      transition:transform .28s ease;
+    }
+    .timeline-card:hover{transform:translateY(-6px)}
+    .timeline-card::after{
+      content:'';
+      position:absolute;
+      inset:auto -20px -20px auto;
+      width:100px;height:100px;
+      border-radius:50%;
+      background:linear-gradient(135deg, rgba(248,191,213,.42), rgba(184,221,255,.42));
+      filter:blur(8px);
+    }
+    .timeline-num{
+      width:46px;
+      height:46px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      font-weight:800;
+      margin-bottom:14px;
+      background:linear-gradient(135deg, rgba(234,125,173,.18), rgba(116,183,255,.18));
+    }
+    .timeline-card h3{font-size:1.15rem;margin-bottom:8px}
+    .timeline-card p{color:var(--texto-suave);line-height:1.8}
+
+    .location-box{
+      margin-top:24px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+    }
+    .glass{
+      border-radius:28px;
+      padding:28px;
+    }
+    .map-preview{
+      min-height:280px;
+      border-radius:24px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.24), rgba(255,255,255,.06)),
+        linear-gradient(135deg, rgba(184,221,255,.56), rgba(248,191,213,.60));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:28px;
+      position:relative;
+      overflow:hidden;
+    }
+    .map-preview::before,
+    .map-preview::after{
+      content:'💗';
+      position:absolute;
+      font-size:1.4rem;
+      opacity:.45;
+    }
+    .map-preview::before{top:18px;left:18px}
+    .map-preview::after{bottom:18px;right:18px;content:'🩵'}
+    .map-preview div{max-width:340px}
+    .map-preview strong{display:block;font-size:1.2rem;margin-bottom:10px}
+    .map-preview p{line-height:1.8;color:var(--texto-suave)}
+
+    .note{
+      margin-top:26px;
+      text-align:center;
+      font-size:1.05rem;
+      line-height:1.9;
+      color:var(--texto-suave);
+    }
+
+    .memory-section{
+      margin-top:26px;
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:20px;
+      align-items:stretch;
+    }
+    .memory-card,
+    .family-card{
+      border-radius:30px;
+      overflow:hidden;
+      background:rgba(255,255,255,.76);
+      border:var(--borde);
+      box-shadow:var(--sombra);
+      position:relative;
+    }
+    .memory-photo{
+      min-height:520px;
+      background-image:linear-gradient(180deg, rgba(77,74,93,.10), rgba(77,74,93,.42)), url('pichis.png');
+      background-size:cover;
+      background-position:center;
+      display:flex;
+      align-items:flex-end;
+      padding:28px;
+    }
+    .memory-caption{
+      width:min(100%, 520px);
+      background:rgba(255,255,255,.74);
+      border:1px solid rgba(255,255,255,.84);
+      border-radius:24px;
+      padding:20px;
+      backdrop-filter:blur(10px);
+      box-shadow:var(--sombra-suave);
+    }
+    .memory-caption h3,
+    .family-text h3{
+      margin-bottom:10px;
+      font-size:1.25rem;
+    }
+    .memory-caption p,
+    .family-text p{
+      color:var(--texto-suave);
+      line-height:1.85;
+    }
+    .family-card{
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      justify-content:space-between;
+    }
+    .family-figure{
+      min-height:320px;
+      border-radius:24px;
+      background-image:linear-gradient(180deg, rgba(255,255,255,.10), rgba(77,74,93,.18)), url('elefantitos.png');
+      background-size:cover;
+      background-position:center;
+      box-shadow:var(--sombra-suave);
+    }
+    .family-text{
+      padding:8px 6px 6px;
+    }
+
+    .gallery-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:18px;
+      margin-top:22px;
+    }
+    .gallery-card{
+      min-height:240px;
+      border-radius:28px;
+      overflow:hidden;
+      position:relative;
+      background:linear-gradient(135deg, rgba(248,191,213,.66), rgba(184,221,255,.68));
+    }
+    .gallery-card:nth-child(2){background:linear-gradient(135deg, rgba(255,232,191,.72), rgba(234,223,255,.74));}
+    .gallery-card:nth-child(3){background:linear-gradient(135deg, rgba(184,221,255,.70), rgba(248,191,213,.62));}
+    .gallery-card::before{
+      content:'';
+      position:absolute;
+      inset:18px;
+      border-radius:22px;
+      background:rgba(255,255,255,.38);
+      border:1px solid rgba(255,255,255,.56);
+      backdrop-filter:blur(8px);
+    }
+    .gallery-content{
+      position:absolute;
+      inset:0;
+      z-index:1;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:26px;
+    }
+    .gallery-icon{font-size:2.7rem;margin-bottom:12px}
+    .gallery-content h3{margin-bottom:8px}
+    .gallery-content p{line-height:1.8;color:var(--texto-suave)}
+
+    .music-bar{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      z-index:4;
+    }
+
+    .footer{
+      padding:48px 0 62px;
+      text-align:center;
+    }
+    .footer-card{
+      border-radius:28px;
+      padding:34px 24px;
+    }
+    .reveal-icon{
+      width:92px;height:92px;border-radius:26px;
+      display:grid;place-items:center;
+      margin:0 auto 18px;
+      font-size:2rem;
+      background:linear-gradient(135deg, rgba(234,125,173,.18), rgba(116,183,255,.18));
+      box-shadow:var(--sombra-suave);
+    }
+    .footer-card h2{font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:14px}
+    .footer-card p{max-width:760px;margin:0 auto 24px;color:var(--texto-suave);line-height:1.9}
+
+    .fade-up{
+      opacity:0;
+      transform:translateY(28px);
+      transition:all .8s ease;
+    }
+    .fade-up.show{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    #ytPlayer{
+      position:fixed;
+      bottom:-200px;
+      opacity:0;
+      pointer-events:none;
+    }
+
+    @media (max-width: 980px){
+      .memory-section{grid-template-columns:1fr}
+
+      .hero-card,
+      .location-box,
+      .timeline{grid-template-columns:1fr}
+      .gallery-grid{grid-template-columns:repeat(2, minmax(0,1fr))}
+      #countdown{grid-template-columns:repeat(2, minmax(0,1fr))}
+      .hero{min-height:auto;padding-top:28px}
+      .hero-left,.hero-right{padding:28px}
+      .script{font-size:3rem}
+    }
+
+    @media (max-width: 640px){
+      .container{width:min(100% - 20px, 1120px)}
+      .hero-left,.hero-right,.glass,.timeline-card,.countdown-wrap,.song-box{padding:20px}
+      .script{font-size:2.5rem}
+      h1{font-size:2.2rem}
+      .btn{width:100%}
+      .pill{width:100%;text-align:center}
+      .gallery-grid,#countdown{grid-template-columns:1fr}
+      .music-bar{left:10px;right:10px;bottom:10px}
+    }
+  </style>
+</head>
+<body>
+  <div class="heart-layer" id="heartLayer"></div>
+
+  <div class="floating-orbs" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="wrapper">
+    <header class="hero">
+      <div class="container">
+        <div class="hero-card fade-up">
+          <div class="hero-photo"></div>
+          <div class="hero-left">
+            <div class="badge">🧸 Una invitación muy especial para nuestro bebé</div>
+            <div class="script">Con el corazón llenito de amor…</div>
+            <h1 style="color:#fff">La <span class="gradient-text">revelación de género</span><br>de nuestro bebé</h1>
+            <p class="lead" style="color:rgba(255,255,255,.9)">
+              Con muchísima emoción queremos invitarte a vivir con nosotros uno de los momentos más tiernos y especiales de nuestras vidas. Será una tarde llena de amor, sonrisas, abrazos, juegos y una gran sorpresa que queremos descubrir rodeados de las personas que más queremos.
+            </p>
+
+            <div class="parents">
+              <div class="pill">👩 Dulce María</div>
+              <div class="pill">👨 Miguel Ángel</div>
+            </div>
+
+            <div class="cta-group">
+              <a class="btn btn-primary" href="https://wa.me/527721192410?text=Hola%2C%20confirmo%20mi%20asistencia%20a%20la%20revelaci%C3%B3n%20de%20g%C3%A9nero%20del%20beb%C3%A9%20de%20Dulce%20Mar%C3%ADa%20y%20Miguel%20%C3%81ngel.%20%C2%A1Nos%20vemos%20el%204%20de%20abril!" target="_blank" rel="noopener noreferrer">Confirmar por WhatsApp</a>
+              <a class="btn btn-secondary" href="#detalles">Ver detalles</a>
+            </div>
+
+            <p class="mini-note">Queremos compartir esta alegría contigo y hacer de este día un recuerdo precioso para siempre. 💗🩵</p>
+
+            <div class="countdown-wrap fade-up">
+              <div class="countdown-title">Cuenta regresiva para conocer a nuestro pequeño gran amor</div>
+              <div id="countdown"></div>
+              <!--div class="chip-row">
+                <span class="chip">💗 Cute</span>
+                <span class="chip">🩵 Emocional</span>
+                <span class="chip">✨ Familiar</span>
+                <span class="chip">🍼 Inolvidable</span>
+              </div-->
+            </div>
+
+            <div class="song-box fade-up">
+              <div class="song-title">Nuestra canción del momento</div>
+              <div class="song-name">Una melodía para acompañar esta invitación</div>
+              <div class="song-text">Presiona el botón flotante para reproducir la música desde el inicio y darle un toque todavía más tierno a este momento.</div>
+            </div>
+          </div>
+
+          <aside class="hero-right">
+            <div class="info-card">
+              <div class="info-label">Fecha</div>
+              <div class="info-value">Sábado 4 de abril de 2026</div>
+              <div class="info-sub">Recepción a partir de las 4:00 p.m.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-label">Lugar</div>
+              <div class="info-value">En nuestra casa</div>
+              <div class="info-sub">Calle Camino Viejo S/N, Bominthza, Mpio. de San Salvador, Hidalgo.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-label">Ambiente</div>
+              <div class="info-value">Tierno, emotivo y familiar 💞</div>
+              <div class="info-sub">Ven con toda la emoción para descubrir juntos si nuestro bebé será niño o niña.</div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="detalles">
+        <div class="container">
+          <h2 class="section-title fade-up">Itinerario de la celebración</h2>
+          <p class="section-text fade-up">Hemos preparado una tarde muy linda para convivir, disfrutar y vivir juntos el gran momento de la revelación.</p>
+
+          <div class="timeline">
+            <article class="timeline-card fade-up">
+              <div class="timeline-num">01</div>
+              <h3>Recepción</h3>
+              <p>Te esperamos desde las 4:00 p.m. para darte la bienvenida y comenzar esta tarde tan especial con toda la mejor vibra.</p>
+            </article>
+            <article class="timeline-card fade-up">
+              <div class="timeline-num">02</div>
+              <h3>Convivencia y juegos</h3>
+              <p>Disfrutaremos de momentos divertidos, dinámicas y juegos para hacer aún más emocionante la espera del gran anuncio.</p>
+            </article>
+            <article class="timeline-card fade-up">
+              <div class="timeline-num">03</div>
+              <h3>Compartir alimentos</h3>
+              <p>Habrá un espacio para disfrutar alimentos, botanas y seguir celebrando juntos este momento tan bonito para nuestra familia.</p>
+            </article>
+            <article class="timeline-card fade-up">
+              <div class="timeline-num">04</div>
+              <h3>Mensaje de agradecimiento</h3>
+              <p>Dulce María y Miguel Ángel dedicarán unas palabras de agradecimiento por acompañarnos en esta etapa tan importante de nuestras vidas.</p>
+            </article>
+            <article class="timeline-card fade-up">
+              <div class="timeline-num">05</div>
+              <h3>La gran revelación</h3>
+              <p>Llegará el momento más esperado de la tarde: descubrir juntos si nuestro bebé será niño o niña. ¡No te lo puedes perder!</p>
+            </article>
+            <article class="timeline-card fade-up">
+              <div class="timeline-num">06</div>
+              <h3>Fotos y recuerdos</h3>
+              <p>Cerraremos con abrazos, sonrisas, fotografías y muchos recuerdos de un día que quedará guardado para siempre en nuestro corazón.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <h2 class="section-title fade-up">Ubicación del evento</h2>
+          <p class="section-text fade-up">Queremos que llegues sin complicaciones, por eso te dejamos la dirección y un acceso directo al mapa.</p>
+
+          <div class="location-box">
+            <div class="glass fade-up">
+              <div class="info-label">Dirección</div>
+              <div class="info-value">Calle Camino Viejo S/N, Bominthza, Mpio. de San Salvador, Hidalgo</div>
+              <p class="info-sub" style="margin-top:12px;">
+                La recepción dará inicio a las 4:00 p.m. del sábado 4 de abril de 2026. Te recomendamos llegar con tiempo para disfrutar desde el comienzo.
+              </p>
+              <div class="cta-group" style="margin-top:18px;">
+                <a class="btn btn-primary" href="https://maps.app.goo.gl/8n7wC51Bfxoa8xBz8" target="_blank" rel="noopener noreferrer">Abrir ubicación en Maps</a>
+              </div>
+            </div>
+
+            <div class="map-preview glass fade-up">
+              <div>
+                <strong>📍 Nos encantará recibirte en casa</strong>
+                <p>Haz clic en el botón para abrir la ubicación exacta en Google Maps y llegar fácilmente a la celebración.</p>
+              </div>
+            </div>
+          </div>
+
+          <p class="note fade-up">Tu presencia hará este momento aún más especial. Gracias por acompañarnos en una fecha tan importante para nuestra familia.</p>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <h2 class="section-title fade-up">Nuestro recuerdo más bonito</h2>
+          <p class="section-text fade-up">Esta foto significa mucho para nosotros, porque fue tomada en un viaje muy especial, cuando ya sabíamos que nuestro bebé venía en camino. Y estos elefantitos nos representan como queremos seguir siendo: una familia unida, tierna y feliz.</p>
+
+          <div class="memory-section">
+            <article class="memory-card fade-up">
+              <div class="memory-photo">
+                <div class="memory-caption">
+                  <h3>Un inicio lleno de amor</h3>
+                  <p>En este momento ya llevábamos a nuestro bebé en la pancita de mamá, y sin duda esa emoción quedó guardada para siempre en esta fotografía.</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="family-card fade-up">
+              <div class="family-figure"></div>
+              <div class="family-text">
+                <h3>Nuestra familia feliz</h3>
+                <p>Estos elefantitos nos inspiran porque reflejan ternura, unión y el amor con el que estamos esperando a nuestro bebé. Queremos que esta invitación también transmita esa misma sensación.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <h2 class="section-title fade-up">Momentos que harán especial esta tarde</h2>
+          <p class="section-text fade-up">Una invitación también se siente en los detalles: ternura, recuerdos bonitos y muchísima emoción.</p>
+
+          <div class="gallery-grid">
+            <article class="gallery-card fade-up">
+              <div class="gallery-content">
+                <div class="gallery-icon">🧸</div>
+                <h3>Detalles llenos de ternura</h3>
+                <p>Una tarde pensada con mucho cariño, colores suaves y una atmósfera hermosa para celebrar este momento tan esperado.</p>
+              </div>
+            </article>
+            <article class="gallery-card fade-up">
+              <div class="gallery-content">
+                <div class="gallery-icon">💞</div>
+                <h3>Recuerdos con amor</h3>
+                <p>Queremos guardar abrazos, sonrisas y cada instante bonito junto a quienes forman parte de esta etapa tan especial.</p>
+              </div>
+            </article>
+            <article class="gallery-card fade-up">
+              <div class="gallery-content">
+                <div class="gallery-icon">🎀</div>
+                <h3>Una sorpresa muy esperada</h3>
+                <p>El gran momento llegará entre emoción, nervios bonitos y mucha alegría, para descubrir juntos si será niño o niña.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="music-bar">
+      <button class="btn btn-primary" id="musicToggle" type="button">💖 Reproducir música</button>
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-card fade-up">
+          <div class="reveal-icon">🍼</div>
+          <h2>¡Esperamos contar con tu presencia!</h2>
+          <p>Acompáñanos a vivir una tarde llena de amor, ilusión y alegría mientras descubrimos juntos una de las sorpresas más bonitas de nuestras vidas.</p>
+          <div class="cta-group" style="justify-content:center;">
+            <a class="btn btn-primary" href="https://wa.me/527721192410?text=Hola%2C%20confirmo%20mi%20asistencia%20a%20la%20revelaci%C3%B3n%20de%20g%C3%A9nero%20del%20beb%C3%A9%20de%20Dulce%20Mar%C3%ADa%20y%20Miguel%20%C3%81ngel.%20%C2%A1Nos%20vemos%20el%204%20de%20abril!" target="_blank" rel="noopener noreferrer">Confirmar asistencia</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div id="ytPlayer"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    const eventDate = new Date('2026-04-04T16:00:00');
+    const countdownEl = document.getElementById('countdown');
+
+    function updateCountdown() {
+      if (!countdownEl) return;
+      const now = new Date();
+      const diff = eventDate - now;
+
+      if (diff <= 0) {
+        countdownEl.innerHTML = '<div class="countdown-finished">¡Hoy es el gran día! 💖🩵</div>';
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      countdownEl.innerHTML = `
+        <div class="count-box"><strong>${days}</strong><span>días</span></div>
+        <div class="count-box"><strong>${hours}</strong><span>horas</span></div>
+        <div class="count-box"><strong>${minutes}</strong><span>minutos</span></div>
+        <div class="count-box"><strong>${seconds}</strong><span>segundos</span></div>
+      `;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    const heartLayer = document.getElementById('heartLayer');
+
+    function createHeroBurst() {
+      if (!heartLayer) return;
+      const heroCard = document.querySelector('.hero-card');
+      if (!heroCard) return;
+      const rect = heroCard.getBoundingClientRect();
+      const centerX = rect.left + rect.width * 0.5;
+      const centerY = rect.top + rect.height * 0.45;
+
+      for (let i = 0; i < 18; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'floating-heart';
+        heart.textContent = i % 2 === 0 ? '💗' : '🩵';
+        heart.style.left = (centerX + (Math.random() * 180 - 90)) + 'px';
+        heart.style.top = (centerY + (Math.random() * 80 - 40)) + 'px';
+        heart.style.bottom = 'auto';
+        heart.style.animationDuration = (Math.random() * 2.2 + 4.2) + 's';
+        heart.style.setProperty('--drift', (Math.random() * 140 - 70) + 'px');
+        heart.style.fontSize = (Math.random() * 16 + 20) + 'px';
+        heartLayer.appendChild(heart);
+        setTimeout(() => heart.remove(), 7000);
+      }
+    }
+
+    function createHeart() {
+      if (!heartLayer) return;
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      heart.textContent = Math.random() > 0.5 ? '💗' : '🩵';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
+      heart.style.setProperty('--drift', (Math.random() * 80 - 40) + 'px');
+      heart.style.fontSize = (Math.random() * 16 + 18) + 'px';
+      heartLayer.appendChild(heart);
+      setTimeout(() => heart.remove(), 11000);
+    }
+    setInterval(createHeart, 700);
+    window.addEventListener('load', () => {
+      setTimeout(createHeroBurst, 500);
+    });
+
+    let player;
+    let playing = false;
+    const musicBtn = document.getElementById('musicToggle');
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('ytPlayer', {
+        height: '0',
+        width: '0',
+        videoId: 'zGGUekR0p6E',
+        playerVars: {
+          playsinline: 1,
+          controls: 0,
+          rel: 0,
+          modestbranding: 1,
+          start: 0
+        }
+      });
+    }
+
+    if (musicBtn) {
+      musicBtn.addEventListener('click', () => {
+        if (!player) return;
+
+        if (!playing) {
+          player.seekTo(0, true);
+          player.playVideo();
+          playing = true;
+          musicBtn.textContent = '💖 Pausar música';
+        } else {
+          player.pauseVideo();
+          playing = false;
+          musicBtn.textContent = '💖 Reproducir música';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
